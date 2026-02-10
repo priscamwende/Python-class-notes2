@@ -10,13 +10,13 @@ class Account:
         self.balance =  balance
 
     def debit (self, amount):
-        if self.account_type in ["Asset","Expenses"]:
+        if self.account_type in ["Asset","Expense"]:
             self.balance += amount # increases the balance or remains same if the amount is 0
         else:
             self. balance -= amount # # decreases the balance
 
     def credit (self, amount):
-        if self.account_type in ["Liabilitie","Equity","Revenue"]:
+        if self.account_type in ["Liability","Equity","Revenue"]:
             self.balance += amount # increases the balance or remains same if the amount is 0
         else:
             self.balance -= amount # # decreases the 
@@ -58,15 +58,31 @@ class Ledger:
 
 if "ledger" not in st.session_state: # an in bult dictionary that keeps values in memory while the app is open.
     ledger = Ledger() # starting as empty but add the initial accounts to the ledger.
+    # Accounts for Assets
     ledger.add_account(Account("Cash", "Asset"))
+    ledger.add_account(Account("Accounts Receivable", "Asset"))
+    ledger.add_account(Account("Inventory", "Asset"))
+    ledger.add_account(Account("Office Equipment", "Asset"))
+    # Accounts for Liabilities
+    ledger.add_account(Account("Accounts Payable", "Liability"))
+    ledger.add_account(Account("Loan Payable", "Liability"))
+    ledger.add_account(Account("Accrued Expenses", "Liability"))
+ # Accounts for Equity
     ledger.add_account(Account("Capital", "Equity"))
-    ledger.add_account(Account("Revenue", "Revenue"))
+    # Accounts for Revenue
+    ledger.add_account(Account("Sales Revenue", "Revenue"))
+    # Accounts for Expenses
     ledger.add_account(Account("Rent Expense", "Expense"))
+    ledger.add_account(Account("Salaries Expense", "Expense"))
+
+    
+
+   
     st.session_state.ledger = ledger
 
 ledger = st.session_state.ledger
 
-st.title("Automated Accounting System")
+st.title("M LTD Automated Accounting System")
 
 st.header("Record Transaction")
 
@@ -120,7 +136,7 @@ st.write(f"Net Income: {net_income}")
 
 st.header("Balance Sheet")
 assets = sum(a.balance for a in ledger.accounts.values() if a.account_type == "Asset")
-liabilities = 0
+liabilities = sum(a.balance for a in ledger.accounts.values() if a.account_type == "Liability")
 equity = sum(a.balance for a in ledger.accounts.values() if a.account_type == "Equity") + net_income
 
 st.write(f"Assets: {assets}")
