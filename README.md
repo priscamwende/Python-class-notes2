@@ -47,5 +47,5 @@ The system will use Streamlit as the user interface, enabling users to:
 2. View journal entries
 3. Display ledger accounts and balances
 4. Generate and view financial statements interactively
-
 Link to my system - http://localhost:8501/
+
